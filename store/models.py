@@ -4,7 +4,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import User
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
-
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Category(models.Model):
@@ -18,17 +18,17 @@ class Category(models.Model):
         return f'{self.pk} - {self.name}'
     
 
-
 class Product(models.Model):
     name = models.CharField(_("Nombre"), max_length=200)
     description = tinymodels.HTMLField(_('Descripcion'))
     category = models.ManyToManyField(Category, verbose_name=_("Categorias"))
+    price = models.FloatField(_("Precio"), validators=[MinValueValidator(0)])
+    discount = models.FloatField(_("Descuento"), default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
     stock = models.IntegerField(_("Stock"), default=0)
 
     def __str__(self):
         return f'{self.pk} - {self.name}'
     
-
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, verbose_name=_(""), on_delete=models.CASCADE)
