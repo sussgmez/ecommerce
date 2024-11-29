@@ -1,0 +1,7 @@
+{% extends "base/core.html" %}
+
+{% block content %}
+    {% for product in product_list %}
+        <a href="{% url 'product' product.pk %}">{{ product }}</a>
+    {% endfor %}
+{% endblock content %}

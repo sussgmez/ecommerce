@@ -4,6 +4,7 @@ from .models import Product, ProductImage, Order, Category
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
+    
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
